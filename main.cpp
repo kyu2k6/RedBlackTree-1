@@ -28,21 +28,55 @@ void showTrunks(Trunk* p) { //Uesd for printing
 }
 
 void print(Node* head, Trunk *previous, bool prev);
+void file();
+void add(Node* head, Node*& current, Node*& previous, int data);
 
 int main() {
-	
-	bool play = true;
-	char input1[10];
 
-	cout << "File or Console input? ";
-	cin.get(input1, 10);
-	cin.get();
-	
+	bool play2 = true;
+	char input2[10];
+	Node* head = NULL;
 
+	while (play2 == true) {
+
+		cout << "Console, Read, Print, or Quit: ";
+		cin.get(input2, 10);
+		cin.get();
+
+		if (strcmp(input2, "Console") == 0) {
+			int data;
+			cout << "What Value: ";
+			cin >> data;
+			cin.get();
+			Node* current = head;
+			Node* previous = NULL;
+			add(head, current, previous, data);
+		}
+		else if (strcmp(input2, "Read") == 0) {
+			file();
+		}
+		else if(strcmp(input2, "Print") == 0) {
+			print(head, NULL, false);
+		}
+		else if (strcmp(input2, "Quit") == 0) {
+			play2 = false;
+		}
+		else {
+			cout << "Invalid Input";
+		}
+
+	}
 
 	return 0;
 }
 
+void add(Node* head, Node*& current, Node*& previous, int data) {
+	
+}
+
+void file() {
+
+}
 
 //same print function as the BST
 void print(Node* head, Trunk *previous, bool prev) {

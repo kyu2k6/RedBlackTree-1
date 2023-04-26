@@ -5,6 +5,8 @@
 
 using namespace std;
 
+//RED IS 1 !!!!! BLACK IS 0
+
 //same function from binary search tree
 struct Trunk { //Used for printing
     Trunk *previous;
@@ -29,6 +31,12 @@ void print(Node* head, Trunk *previous, bool prev);
 
 int main() {
 	
+	bool play = true;
+	char input1[10];
+
+	cout << "File or Console input? ";
+	cin.get(input1, 10);
+	cin.get();
 	
 
 

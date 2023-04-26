@@ -6,6 +6,8 @@ using namespace std;
 
 Node::Node() {
 
+	int color = 1;
+	parent = NULL;
 	int data;
 	prev = NULL;
 	next = NULL;
@@ -15,8 +17,15 @@ Node::Node() {
 Node::~Node() {
 	prev = NULL;
 	next = NULL;
+	parent = NULL;
 }
 
+int Node::getColor() {
+	return color;
+}
+Node* Node::getParent() {
+	return parent;
+}
 Node* Node::getNext() {
 	return next;
 }
@@ -29,6 +38,12 @@ int Node::getData() {
 	return data;
 }
 
+void Node::setColor(int newColor) {
+	color = newColor;
+}
+void Node::setParent(Node* newParent) {
+	parent = newParent;
+}
 void Node::setNext(Node* newNext) {
 	next = newNext;
 }

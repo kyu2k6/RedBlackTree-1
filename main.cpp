@@ -29,7 +29,8 @@ void showTrunks(Trunk* p) { //Uesd for printing
 
 void print(Node* head, Trunk *previous, bool prev);
 void file();
-void add(Node* head, Node*& current, Node*& previous, int data);
+void add(Node*& head, Node*& current, Node*& previous, int data);
+void sort();
 
 int main() {
 
@@ -70,8 +71,54 @@ int main() {
 	return 0;
 }
 
-void add(Node* head, Node*& current, Node*& previous, int data) {
-	
+void sort() {
+
+}
+
+void add(Node*& head, Node*& current, Node*& previous, int data) {
+		//firts person is always black
+		if (head == NULL) {
+			head = new Node();
+			current = head;
+			head -> setData(data);
+			head -> setColor(0);
+		}
+		else {
+			//if incoming is less than current node
+			if (data < (current -> getData())) {
+				previous = current;
+				current = current -> getPrev();
+				//if there is nothing below insert the node
+				if (current == NULL) {
+					current = new Node();
+					current -> setData(data);
+					previous -> setPrev(current);
+					current -> setParent(previous);
+					//ADD THE FUNCTION WHERE U RUN THE TEST CASES AND REORGANIZE THE TREE //sort();
+					return;
+				}
+				else {
+					add(head, current, previous, data);
+				}
+			}
+			//if incoming is greater than the current node
+			else {
+				previous = current;
+				current = current -> getNext();
+				if (current == NULL) {
+					current = new Node();
+					current -> setData(data);
+					previous -> setNext(current);
+					current -> setParent(previous);
+					//ADD THE FUNCTION WHERE U RUN THE TEST CASES AND REORGANIZE THE TREE //sort();
+					return;
+				}
+				else {
+					add(head, current, previous, data);
+				}
+			}	
+		}
+
 }
 
 void file() {
@@ -101,8 +148,12 @@ void print(Node* head, Trunk *previous, bool prev) {
 		previous -> str = prevStr;
 	}
 	showTrunks(trunk);
-	cout << " " << head->getData() << endl;
-
+	if (head -> getColor() == 0) { //b
+		cout << head -> getData() << "B" << endl;
+	}
+	else { //r
+		cout << head -> getData() << "R" << endl;
+	}
 	if (previous) {
 		previous -> str = prevStr;
 	}

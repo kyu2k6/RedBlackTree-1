@@ -5,6 +5,16 @@
 
 using namespace std;
 
+/*
+ *
+ * To Do: Sort command with the conditions
+ * File Input
+ *
+ *
+ */
+
+
+
 //RED IS 1 !!!!! BLACK IS 0
 
 //same function from binary search tree
@@ -27,10 +37,11 @@ void showTrunks(Trunk* p) { //Uesd for printing
     cout << p->str;
 }
 
+void createArray(char* in, int* array, int& count);
 void print(Node* head, Trunk *previous, bool prev);
-void file();
+void file(Node*& head);
 void add(Node*& head, Node*& current, Node*& previous, int data);
-void sort();
+void sort(Node*& head, Node*& current);
 
 int main() {
 
@@ -52,9 +63,12 @@ int main() {
 			Node* current = head;
 			Node* previous = NULL;
 			add(head, current, previous, data);
+			if (current != head) {
+				sort(head, current);
+			}
 		}
 		else if (strcmp(input2, "Read") == 0) {
-			file();
+			file(head);
 		}
 		else if(strcmp(input2, "Print") == 0) {
 			print(head, NULL, false);
@@ -63,7 +77,7 @@ int main() {
 			play2 = false;
 		}
 		else {
-			cout << "Invalid Input";
+			cout << "Invalid Input" << endl;
 		}
 
 	}
@@ -71,8 +85,140 @@ int main() {
 	return 0;
 }
 
-void sort() {
+void sort(Node*& head, Node*& current) {
+	Node* parent = NULL;
+	Node* gparent = NULL;
+	//while not head, and the current is red with a black parent
+	while ((current != head) && (current->getColor() != 0) && ((current->getParent())->getColor() == 1)) {
+		parent = current -> getParent();
+        	gparent = parent -> getParent();
+		//when the parent is on the left node of the grandparent
+        	if (parent == gparent -> getPrev()) {
+            		Node* uncle = gparent->getNext();
+			//case 3 where uncle is red and parent is red
+            		if (uncle != NULL && uncle->getColor() != 0) {
+                		gparent->setColor(1); 
+                		parent->setColor(0); 
+                		uncle->setColor(0); 
+				current = gparent; //recursively calls on grandparent
+           		}
+            		else {
+				//case 4 in which uncle is black
+				if (current == parent->getNext()) {
+                    			Node* right = current -> getNext();
+					current -> setNext(right -> getPrev());
+					if (current -> getNext() != NULL) {
+						(current -> getNext()) -> setParent(current);
+					}
+					right -> setParent(current -> getParent());
+					//if its head
+					if (current -> getParent() != NULL) {
+						head = right;
+					}
+					else if (current == (current -> getParent()) -> getPrev()){
+						(current -> getParent()) -> setPrev(right);
+					}
+					else {
+						(current -> getParent()) -> setNext(right);
+					}
+					right -> setPrev(current);
+					current -> setParent(right);
+                    			current = parent;
+                    			parent = current->getParent();
+				}
+				//Case 5 //same as right but left
+				Node* left = current -> getPrev();
+    				current->setPrev(left -> getNext());
+    				if (current->getPrev() != NULL) {
+        				(current->getPrev())->setParent(current);
+    				}
+    				left->setParent(current -> getParent());
+   				//if its head
+    				if (current->getParent() == NULL) {
+        				head = left;
+    				}
+    				else if (current == (current -> getParent()) -> getPrev()) {
+        				(current -> getParent())->setPrev(left);
+    				}
+    				else {
+        				(current -> getParent()) -> setNext(left);
+    				}
+    				left -> setNext(current);
+    				current -> setParent(left);
+				
+				//switch colors between gparent and parent
+				int color = parent -> getColor();
+				parent -> setColor(gparent -> getColor());
+				gparent -> setColor(color);
+				current = parent;
 
+               		}
+		}
+		//when the parent is on the right node of the grandparent same thing as previosu but swapped around
+		else {
+			Node* uncle = gparent->getPrev();
+			//case 3 where uncle is red and parent is red
+            		if (uncle != NULL && uncle->getColor() != 0) {
+                		gparent->setColor(1); 
+                		parent->setColor(0); 
+                		uncle->setColor(0); 
+				current = gparent; //recursively calls on grandparent
+           		}
+            		else {
+				//i didnt rename right and left i just copy and pasted from the first case but they should be opposite left and right
+				//case 4 in which uncle is black
+				if (current == parent->getPrev()) {
+                    			Node* right = current -> getPrev();
+					current -> setPrev(right -> getNext());
+					if (current -> getPrev() != NULL) {
+						(current -> getPrev()) -> setParent(current);
+					}
+					right -> setParent(current -> getParent());
+					//if its head
+					if (current -> getParent() != NULL) {
+						head = right;
+					}
+					else if (current == (current -> getParent()) -> getPrev()){
+						(current -> getParent()) -> setPrev(right);
+					}
+					else {
+						(current -> getParent()) -> setNext(right);
+					}
+					right -> setPrev(current);
+					current -> setParent(right);
+                    			current = parent;
+                    			parent = current->getParent();
+				}
+				//Case 5 //same as right but left
+				Node* left = current -> getNext();
+    				current->setNext(left -> getPrev());
+    				if (current->getNext() != NULL) {
+        				(current->getNext())->setParent(current);
+    				}
+    				left->setParent(current -> getParent());
+   				//if its head
+    				if (current->getParent() == NULL) {
+        				head = left;
+    				}
+    				else if (current == (current -> getParent()) -> getPrev()) {
+        				(current -> getParent())->setPrev(left);
+    				}
+    				else {
+        				(current -> getParent()) -> setNext(left);
+    				}
+    				left -> setPrev(current);
+    				current -> setParent(left);
+				
+				//switch colors between gparent and parent
+				int color = parent -> getColor();
+				parent -> setColor(gparent -> getColor());
+				gparent -> setColor(color);
+				current = parent;
+               		}
+
+		}
+	}
+	head -> setColor(0); //always set root to black
 }
 
 void add(Node*& head, Node*& current, Node*& previous, int data) {
@@ -84,6 +230,7 @@ void add(Node*& head, Node*& current, Node*& previous, int data) {
 			head -> setColor(0);
 		}
 		else {
+		//always comes in as red
 			//if incoming is less than current node
 			if (data < (current -> getData())) {
 				previous = current;
@@ -94,7 +241,7 @@ void add(Node*& head, Node*& current, Node*& previous, int data) {
 					current -> setData(data);
 					previous -> setPrev(current);
 					current -> setParent(previous);
-					//ADD THE FUNCTION WHERE U RUN THE TEST CASES AND REORGANIZE THE TREE //sort();
+					sort(head, current);
 					return;
 				}
 				else {
@@ -110,7 +257,7 @@ void add(Node*& head, Node*& current, Node*& previous, int data) {
 					current -> setData(data);
 					previous -> setNext(current);
 					current -> setParent(previous);
-					//ADD THE FUNCTION WHERE U RUN THE TEST CASES AND REORGANIZE THE TREE //sort();
+					sort(head, current);
 					return;
 				}
 				else {
@@ -121,8 +268,43 @@ void add(Node*& head, Node*& current, Node*& previous, int data) {
 
 }
 
-void file() {
 
+//from bst last unit
+void file(Node*& head) {	
+	char input[10000];
+    	char fname[20];
+    	int modify[100];
+    	int sizes = 0;
+    	int count = 0;
+    	memset(input, 0, 10000);
+    	memset(fname, 0, 100);
+    	memset(modify, 0, 100);
+    	cout << endl << "Name? ";
+    	cin.get(fname, 20);
+    	cin.get();
+    	streampos size;
+    	ifstream file(fname, ios::in | ios::binary | ios::ate);
+    	if (file.is_open()) {
+        	size = file.tellg();
+        	file.seekg(0, ios::beg);
+        	file.read(input, size);
+        	file.close();
+        	createArray(input, modify, count); 
+        	for (int i = 0; i < 100; i++) {
+            		if (modify[i] != 0) {
+                		sizes++;
+            		}
+        	}
+        	Node* current = NULL;
+        	Node* previous = NULL;
+        	for (int i = 0; i < sizes; i++) {
+            		if (modify[i] == 0) {
+				break;
+			}
+            		current = head;
+            		add(head, current, previous, modify[i]);
+        	}
+    	}
 }
 
 //same print function as the BST
@@ -161,3 +343,43 @@ void print(Node* head, Trunk *previous, bool prev) {
 	print(head -> getNext(), trunk, false);
 }
 
+//from bst last unit
+void createArray(char* in, int* array, int& count) {
+	int x = 0; // counter of char before add
+	for (int i = 0;i < strlen(in); i++) {
+		if (in[i] == ' ') {
+			//if one digit so far, add it
+			if(x == 1) {
+				int temp = 0;
+				temp = in[i-1] - '0';
+				array[count] = temp;
+				count++;
+				x = 0;
+			}
+			else {
+			//if more than 1 digit, add everything till where was space
+				int temp = 0;
+				for (int j = 0; j < x; j++) {
+					temp = 10 * temp + (in[i- x + j] - '0');
+				}
+				array[count] = temp;
+				count++;
+				x = 0;
+			}
+		}
+		//If no space
+		else {
+			int temp = 0;
+			// add digit counter
+			x++;
+			//add everything at the end
+			if (i == strlen(in) - 1) {
+				for (int j = 0; j < x; j++) {
+					temp = 10 * temp + (in[i + j + 1 - x] - '0');
+				}
+				array[count] = temp;
+				count++;
+			}
+		}
+	}
+}

@@ -105,46 +105,46 @@ void sort(Node*& head, Node*& current) {
             		else {
 				//case 4 in which uncle is black
 				if (current == parent->getNext()) {
-                    			Node* right = current -> getNext();
-					current -> setNext(right -> getPrev());
-					if (current -> getNext() != NULL) {
-						(current -> getNext()) -> setParent(current);
+                    			Node* right = parent -> getNext();
+					parent -> setNext(right -> getPrev());
+					if (parent -> getNext() != NULL) {
+						(parent -> getNext()) -> setParent(current);
 					}
-					right -> setParent(current -> getParent());
+					right -> setParent(parent -> getParent());
 					//if its head
-					if (current -> getParent() != NULL) {
+					if (parent -> getParent() != NULL) {
 						head = right;
 					}
-					else if (current == (current -> getParent()) -> getPrev()){
-						(current -> getParent()) -> setPrev(right);
+					else if (parent == (parent -> getParent()) -> getPrev()){
+						(parent -> getParent()) -> setPrev(right);
 					}
 					else {
-						(current -> getParent()) -> setNext(right);
+						(parent -> getParent()) -> setNext(right);
 					}
-					right -> setPrev(current);
-					current -> setParent(right);
+					right -> setPrev(parent);
+					parent -> setParent(right);
                     			current = parent;
                     			parent = current->getParent();
 				}
 				//Case 5 //same as right but left
-				Node* left = current -> getPrev();
-    				current->setPrev(left -> getNext());
-    				if (current->getPrev() != NULL) {
-        				(current->getPrev())->setParent(current);
+				Node* left = gparent -> getPrev();
+    				gparent->setPrev(left -> getNext());
+    				if (gparent->getPrev() != NULL) {
+        				(gparent->getPrev())->setParent(gparent);
     				}
-    				left->setParent(current -> getParent());
+    				left->setParent(gparent -> getParent());
    				//if its head
-    				if (current->getParent() == NULL) {
+    				if (gparent->getParent() == NULL) {
         				head = left;
     				}
-    				else if (current == (current -> getParent()) -> getPrev()) {
-        				(current -> getParent())->setPrev(left);
+    				else if (gparent == (gparent -> getParent()) -> getPrev()) {
+        				(gparent -> getParent())->setPrev(left);
     				}
     				else {
-        				(current -> getParent()) -> setNext(left);
+        				(gparent -> getParent()) -> setNext(left);
     				}
-    				left -> setNext(current);
-    				current -> setParent(left);
+    				left -> setNext(gparent);
+    				gparent -> setParent(left);
 				
 				//switch colors between gparent and parent
 				int color = parent -> getColor();
@@ -168,46 +168,46 @@ void sort(Node*& head, Node*& current) {
 				//i didnt rename right and left i just copy and pasted from the first case but they should be opposite left and right
 				//case 4 in which uncle is black
 				if (current == parent->getPrev()) {
-                    			Node* right = current -> getPrev();
-					current -> setPrev(right -> getNext());
-					if (current -> getPrev() != NULL) {
-						(current -> getPrev()) -> setParent(current);
+                    			Node* right = parent -> getPrev();
+					parent -> setPrev(right -> getNext());
+					if (parent -> getPrev() != NULL) {
+						(parent -> getPrev()) -> setParent(parent);
 					}
-					right -> setParent(current -> getParent());
+					right -> setParent(parent -> getParent());
 					//if its head
-					if (current -> getParent() != NULL) {
+					if (parent -> getParent() != NULL) {
 						head = right;
 					}
-					else if (current == (current -> getParent()) -> getPrev()){
-						(current -> getParent()) -> setPrev(right);
+					else if (parent == (parent -> getParent()) -> getPrev()){
+						(parent -> getParent()) -> setPrev(right);
 					}
 					else {
-						(current -> getParent()) -> setNext(right);
+						(parent -> getParent()) -> setNext(right);
 					}
-					right -> setPrev(current);
-					current -> setParent(right);
+					right -> setPrev(parent);
+					parent -> setParent(right);
                     			current = parent;
                     			parent = current->getParent();
 				}
 				//Case 5 //same as right but left
-				Node* left = current -> getNext();
-    				current->setNext(left -> getPrev());
-    				if (current->getNext() != NULL) {
-        				(current->getNext())->setParent(current);
+				Node* left = gparent -> getNext();
+    				gparent->setNext(left -> getPrev());
+    				if (gparent->getNext() != NULL) {
+        				(gparent->getNext())->setParent(current);
     				}
-    				left->setParent(current -> getParent());
+    				left->setParent(gparent -> getParent());
    				//if its head
-    				if (current->getParent() == NULL) {
+    				if (gparent->getParent() == NULL) {
         				head = left;
     				}
-    				else if (current == (current -> getParent()) -> getPrev()) {
-        				(current -> getParent())->setPrev(left);
+    				else if (gparent == (gparent -> getParent()) -> getPrev()) {
+        				(gparent -> getParent())->setPrev(left);
     				}
     				else {
-        				(current -> getParent()) -> setNext(left);
+        				(gparent -> getParent()) -> setNext(left);
     				}
-    				left -> setPrev(current);
-    				current -> setParent(left);
+    				left -> setPrev(gparent);
+    				gparent -> setParent(left);
 				
 				//switch colors between gparent and parent
 				int color = parent -> getColor();

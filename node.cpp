@@ -6,9 +6,9 @@ using namespace std;
 
 Node::Node() {
 
-	int color = 1;
+	color = 1;
 	parent = NULL;
-	int data;
+	data;
 	prev = NULL;
 	next = NULL;
 	

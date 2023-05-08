@@ -112,7 +112,7 @@ void sort(Node*& head, Node*& current) {
 					}
 					right -> setParent(parent -> getParent());
 					//if its head
-					if (parent -> getParent() != NULL) {
+					if (parent -> getParent() == NULL) {
 						head = right;
 					}
 					else if (parent == (parent -> getParent()) -> getPrev()){
@@ -175,7 +175,7 @@ void sort(Node*& head, Node*& current) {
 					}
 					right -> setParent(parent -> getParent());
 					//if its head
-					if (parent -> getParent() != NULL) {
+					if (parent -> getParent() == NULL) {
 						head = right;
 					}
 					else if (parent == (parent -> getParent()) -> getPrev()){

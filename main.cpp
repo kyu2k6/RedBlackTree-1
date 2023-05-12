@@ -42,6 +42,7 @@ void print(Node* head, Trunk *previous, bool prev);
 void file(Node*& head);
 void add(Node*& head, Node*& current, Node*& previous, int data);
 void sort(Node*& head, Node*& current);
+void search(Node* current, int &data);
 
 int main() {
 
@@ -51,7 +52,7 @@ int main() {
 
 	while (play2 == true) {
 
-		cout << "Console, Read, Print, or Quit: ";
+		cout << "Console, Read, Print, Search, or Quit: ";
 		cin.get(input2, 10);
 		cin.get();
 
@@ -72,6 +73,13 @@ int main() {
 		}
 		else if(strcmp(input2, "Print") == 0) {
 			print(head, NULL, false);
+		}
+		else if(strcmp(input2, "Search") == 0) {
+		    int tmp;
+		    cout << "What Number? ";
+		    cin >> tmp;
+		    cin.get();
+		    search(head, tmp);
 		}
 		else if (strcmp(input2, "Quit") == 0) {
 			play2 = false;
@@ -343,6 +351,30 @@ void print(Node* head, Trunk *previous, bool prev) {
 	}
 	trunk->str = (char*)("   |");
 	print(head -> getNext(), trunk, false);
+}
+
+void search(Node* current, int& data) { 
+	while (current -> getData() != data && current != NULL) {
+		if(current != NULL) {
+			if(current -> getData() > data) {
+				current = current -> getPrev();
+			}
+			else {
+				current = current -> getNext();
+			}
+		}
+		if (current == NULL) {
+			break;
+		}
+	}
+	if (current != NULL) {
+		if(current -> getData() == data) {
+			cout << "In the Tree." << endl;
+		}
+	}
+	else {
+		cout << "Not in the Tree." << endl;
+	}
 }
 
 //from bst last unit
